@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Base {
+public class JippiHtml {
   
   //////////////////////////////////////////////////////////////////////////////
-  // utility for crisp source code
+  // SyntacticSugar
+  //////////////////////////////////////////////////////////////////////////////
   public static HtmlElement html(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
      return new HtmlElementImpl("html", htmlAttributes, htmlElements);
   }
@@ -29,6 +30,12 @@ public class Base {
   }
   public static HtmlElement div(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
      return new HtmlElementImpl("div", htmlAttributes, htmlElements);
+  }
+  public static HtmlElement h1(List<HtmlAttribute> htmlAttributes, String text) {
+     return new HtmlElementImpl("h1", htmlAttributes, text(text));
+  }
+  public static HtmlElement h1(String text) {
+     return new HtmlElementImpl("h1", text(text));
   }
   public static HtmlElement a(List<HtmlAttribute> htmlAttributes, String text) {
      return new HtmlElementImpl("a", htmlAttributes, text(text));
@@ -87,8 +94,9 @@ public class Base {
   
   //////////////////////////////////////////////////////////////////////////////
   // Interfaces
+  /////////////////////////////////////////////////////////////////////////////
   public interface HtmlRenderable {
-    // Just a way to efficiently connect the strings later on.
+    // we use list so that we can render the strings efficiently later on.
     List<String> renderAsArrayOfStrings();
   }
   
@@ -99,6 +107,7 @@ public class Base {
   
   //////////////////////////////////////////////////////////////////////////////
   // Implementation
+  //////////////////////////////////////////////////////////////////////////////
   public static class HtmlAttributeImpl implements HtmlAttribute {
     private final String name;
     private final String value;
@@ -193,7 +202,7 @@ public class Base {
       return fullHtml;
     }
     
-      // ==> https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
+    // ==> https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
     public String escapeUntrustedHtmlElementContent(String untrustedString) {
       return untrustedString
         .replaceAll("&", "&amp;")

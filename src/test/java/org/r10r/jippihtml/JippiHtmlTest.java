@@ -2,16 +2,16 @@ package org.r10r.jippihtml;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.r10r.jippihtml.Base.*;
+import static org.r10r.jippihtml.JippiHtml.*;
 import org.hamcrest.CoreMatchers;
 
-public class BaseTest {
+public class JippiHtmlTest {
 
-  public BaseTest() {
+  public JippiHtmlTest() {
   }
 
   // That's a site template, where you can include the variable parts
-  private HtmlElement siteTemplate(HtmlElement... mainPage) {
+  HtmlElement siteTemplate(HtmlElement... mainPage) {
     return html(
       head(
         title("My awesome website")
@@ -20,9 +20,26 @@ public class BaseTest {
         mainPage
       )
     );
-
   }
 
+  HtmlElement indexPage() {
+    return siteTemplate(
+      h1("This is my index page"),
+      div(attributes(className("main")),
+        text("this is the main page")
+      )
+    );
+  }
+  
+  @Test
+  public void renderPage() {
+    String renderedPage = render(indexPage());
+    System.out.println(renderedPage);
+  }
+  
+  
+  
+  
   @Test
   public void testSomeMethod() {
 
