@@ -44,7 +44,7 @@ allows to write html files using a Java based dsl.
 A common usecase for web applications is rendering an index page that is embededed
 inside a template (header, footer etc).
 
-I JippiHtml this'd look like that:
+In JippiHtml this'd look like that:
 
 ```java
 public HtmlElement siteTemplate(HtmlElement... mainPage) {
