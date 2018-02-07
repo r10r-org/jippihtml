@@ -43,7 +43,7 @@ inside a template (header, footer etc).
 
 I JippiHtml this'd look like that:
 
-```
+```java
 public HtmlElement siteTemplate(HtmlElement... mainPage) {
   return 
     html(
@@ -78,7 +78,7 @@ and can be rendered efficiently on outputsreams of web servers.
 
 renderedPage will be the following plain text html:
 
-```
+```html
 <html>
 
 <head>
