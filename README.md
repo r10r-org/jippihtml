@@ -45,23 +45,25 @@ I JippiHtml this'd look like that:
 
 ```
 public HtmlElement siteTemplate(HtmlElement... mainPage) {
-  return html(
-    head(
-      title("My awesome website")
-    ),
-    body(
-      mainPage
-    )
-  );
+  return 
+    html(
+      head(
+        title("My awesome website")
+      ),
+      body(
+        mainPage
+      )
+    );
 }
 
 public HtmlElement indexPage() {
-  return siteTemplate(
-    h1("This is my index page"),
-    div(attributes(className("main")),
-      text("this is the main page")
-    )
-  );
+  return 
+    siteTemplate(
+      h1("This is my index page"),
+      div(attributes(className("main")),
+        text("this is the main page")
+      )
+    );
 }
 
 public void renderPage() {
