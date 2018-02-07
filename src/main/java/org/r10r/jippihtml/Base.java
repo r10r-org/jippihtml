@@ -1,155 +1,210 @@
 package org.r10r.jippihtml;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Base {
-
+  
   //////////////////////////////////////////////////////////////////////////////
   // utility for crisp source code
-  public static HtmlElement html(HtmlRenderable... htmlRenderable) {
-    return new HtmlElementImpl("html", htmlRenderable);
+  public static HtmlElement html(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+     return new HtmlElementImpl("html", htmlAttributes, htmlElements);
   }
-
+  public static HtmlElement html(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("html", htmlElements);
+  }
   public static HtmlElement title(String text) {
-    return new HtmlElementImpl("title", text(text));
+     return new HtmlElementImpl("title", text(text));
   }
-
-  public static HtmlElement body(HtmlRenderable... htmlRenderable) {
-    return new HtmlElementImpl("body", htmlRenderable);
+  public static HtmlElement body(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("body", htmlElements);
   }
-
-  public static HtmlElement head(HtmlRenderable... htmlRenderable) {
-    return new HtmlElementImpl("head", htmlRenderable);
+  public static HtmlElement head(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("head", htmlElements);
   }
-
-  public static HtmlElement div(HtmlRenderable... htmlRenderable) {
-    return new HtmlElementImpl("div", htmlRenderable);
+  public static HtmlElement div(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("div", htmlElements);
   }
-
-  public static HtmlElement a(HtmlRenderable... htmlRenderable) {
-    return new HtmlElementImpl("a", htmlRenderable);
+  public static HtmlElement div(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+     return new HtmlElementImpl("div", htmlAttributes, htmlElements);
   }
-
+  public static HtmlElement a(List<HtmlAttribute> htmlAttributes, String text) {
+     return new HtmlElementImpl("a", htmlAttributes, text(text));
+  }
+  public static HtmlElement a(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+     return new HtmlElementImpl("a", htmlAttributes, htmlElements);
+  }
+  public static HtmlElement a(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("a", htmlElements);
+  }
+  public static HtmlElement ul(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("ul", htmlElements);
+  }
+  public static HtmlElement ul(List<HtmlElement> htmlElements) {
+     return new HtmlElementImpl("ul", htmlElements);
+  }
+  public static HtmlElement li(HtmlElement... htmlRenderable) {
+     return new HtmlElementImpl("li", htmlRenderable);
+  }
+  public static HtmlElement element(String tag, HtmlElement... htmlElements) {
+     return new HtmlElementImpl(tag, htmlElements);
+  }
   public static HtmlElement text(String text) {
-    return new Text(text);
+     return new Text(text);
   }
-
+  
+  public static String render(HtmlRenderable htmlRenderable) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String s : htmlRenderable.renderAsArrayOfStrings()) {
+      stringBuilder.append(s);
+    }
+    return stringBuilder.toString();
+  }
+  
   public static final HtmlElement br = new HtmlElementImpl("br");
-
+  
   public static HtmlElement br() {
-    return br;
+     return br;
   }
 
   public static HtmlAttribute href(String href) {
-    return new HtmlAttributeImpl("href", href);
+     return new HtmlAttributeImpl("href", href);
   }
-
+  
   public static HtmlAttribute className(String className) {
-    return new HtmlAttributeImpl("class", className);
+     return new HtmlAttributeImpl("class", className);
   }
 
   public static HtmlAttribute attr(String key, String value) {
-    return new HtmlAttributeImpl(key, value);
+     return new HtmlAttributeImpl(key, value);
   }
-
+  
+  public static List<HtmlAttribute> attributes(HtmlAttribute ... htmlAttributes) {
+     return Arrays.asList(htmlAttributes);
+  }
+  
   //////////////////////////////////////////////////////////////////////////////
   // Interfaces
-  public static interface HtmlRenderable {
-
-    String render();
+  public interface HtmlRenderable {
+    // Just a way to efficiently connect the strings later on.
+    List<String> renderAsArrayOfStrings();
   }
-
-  public static interface HtmlElement extends HtmlRenderable {
-  }
-
-  public static interface HtmlAttribute extends HtmlRenderable {
-  }
-
+  
+  public static interface HtmlElement extends HtmlRenderable {}
+    
+  public static interface HtmlAttribute extends HtmlRenderable {}
+  
+  
   //////////////////////////////////////////////////////////////////////////////
   // Implementation
   public static class HtmlAttributeImpl implements HtmlAttribute {
-
-    private final String key;
+    private final String name;
     private final String value;
-
-    public HtmlAttributeImpl(String key, String value) {
-      this.key = key;
+    
+    private static final String NAME_VALUE_WITH_PLACEHOLDER = "%s=\"%s\"".intern();
+    
+    public HtmlAttributeImpl(String name, String value) {
+      this.name = name;
       this.value = value;
     }
 
     @Override
-    public String render() {
-      return String.format("%s=\"%s\"", key, value);
+    public List<String> renderAsArrayOfStrings() {
+      return Collections.singletonList(String.format(NAME_VALUE_WITH_PLACEHOLDER, name, value));
     }
   }
-
+  
   public static class Text implements HtmlElement {
-
-    private String text;
+    private final String text;
 
     public Text(String text) {
       this.text = text;
     }
 
     @Override
-    public String render() {
-      return text;
+    public List<String> renderAsArrayOfStrings() {
+      return Collections.singletonList(text);
     }
   }
-
+  
   public static class HtmlElementImpl implements HtmlElement {
-
-    private final String htmlElementName; // br, div, a etc
-    private final HtmlRenderable[] renderables;
-
-    private HtmlElementImpl(String htmlElementName, HtmlRenderable... renderables) {
-      this.htmlElementName = htmlElementName;
-      this.renderables = renderables;
+    
+    private final String tag; // br, div, a etc
+    private final List<HtmlElement> htmlElements;
+    private final List<HtmlAttribute> htmlAttributes;
+    
+    // this is more "efficient" as we don't want to create the strings
+    // over and over again... hmm. is it really? => to be verified...
+    private static final String SPACE = " ".intern();
+    private static final String OPENING_BRACE = "<".intern();
+    private static final String CLOSING_BRACE_NO_CONTENT = "/>".intern();
+    private static final String CLOSING_BRACE = ">".intern();
+    private static final String CLOSING_TAG_WITH_PLACEHOLDER = "</%s>".intern();
+    
+    private HtmlElementImpl(String tag, List<HtmlAttribute> htmlAttributes, List<HtmlElement> htmlElements) {
+      this.tag = tag;
+      this.htmlElements = htmlElements;
+      this.htmlAttributes = htmlAttributes;
     }
-
-    public static HtmlElement htmlElement(String htmlElementName,
-      HtmlRenderable... renderables) {
-      return new HtmlElementImpl(htmlElementName, renderables);
+    
+    private HtmlElementImpl(String htmlElementName, HtmlElement ... htmlElements) {
+      this(htmlElementName, Collections.EMPTY_LIST, Arrays.asList(htmlElements));
+    }
+    
+    private HtmlElementImpl(String htmlElementName, List<HtmlElement> htmlElements) {
+      this(htmlElementName, Collections.EMPTY_LIST, htmlElements);
+    }
+        
+    private HtmlElementImpl(String htmlElementName, List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+      this(htmlElementName, htmlAttributes, Arrays.asList(htmlElements));
     }
 
     @Override
-    public String render() {
-      // attributes
-      List<HtmlRenderable> htmlAttributes
-        = Stream.of(renderables).filter(c -> c instanceof HtmlAttribute).collect(Collectors.toList());
-      String htmlAttributesRendered = htmlAttributes.stream().map(c
-        -> c.render()).collect(Collectors.joining(" "));
+    public List<String> renderAsArrayOfStrings() {
 
-      // htmlelements => go to inner
-      List<HtmlRenderable> htmlElements
-        = Stream.of(renderables).filter(c -> c instanceof HtmlElement).collect(Collectors.toList());
-      String htmlElementsRendered = htmlElements.stream().map(c
-        -> c.render()).collect(Collectors.joining(""));
-
-      String htmlStartTagWithAttributes;
-      if (htmlAttributesRendered.equals("")) {
-        // no space between attribute names and tag...2
-        htmlStartTagWithAttributes = String.format("%s", htmlElementName);
+      List<String> fullHtml = new ArrayList<>();
+      fullHtml.add(OPENING_BRACE);
+      fullHtml.add(tag);
+      if (htmlAttributes.isEmpty()) {
+        // don't add anything...
       } else {
-        // with space between attribute name and attributes
-        htmlStartTagWithAttributes = String.format("%s %s",
-          htmlElementName, htmlAttributesRendered);
+        for (HtmlRenderable htmlAttribute: htmlAttributes) {
+          // fixme...
+          fullHtml.add(SPACE);
+          fullHtml.addAll(htmlAttribute.renderAsArrayOfStrings());
+        }
       }
-
+      
       // if we don't have any inner html, we close the tag
-      String fullHtmlRendered;
-      if (htmlElementsRendered.equals("")) {
-        fullHtmlRendered = String.format("<%s/>", htmlStartTagWithAttributes);
+      if (htmlElements.isEmpty()) {
+        fullHtml.add(CLOSING_BRACE_NO_CONTENT);
       } else {
-        fullHtmlRendered = String.format("<%s>%s</%s>",
-          htmlStartTagWithAttributes, htmlElementsRendered, htmlElementName);
+        fullHtml.add(CLOSING_BRACE);
+        
+        for (HtmlElement htmlElement: htmlElements) {
+          fullHtml.addAll(htmlElement.renderAsArrayOfStrings());
+        }
+        
+        fullHtml.add(String.format(CLOSING_TAG_WITH_PLACEHOLDER, tag));
       }
-
-      return fullHtmlRendered;
+        
+      return fullHtml;
+    }
+    
+      // ==> https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
+    public String escapeUntrustedHtmlElementContent(String untrustedString) {
+      return untrustedString
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#x27;")
+        .replaceAll("/", "&#x2F;");
     }
 
   }
 
 }
+
