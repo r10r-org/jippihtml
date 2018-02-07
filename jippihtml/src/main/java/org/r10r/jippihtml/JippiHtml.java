@@ -36,6 +36,24 @@ public class JippiHtml {
   }
   public static HtmlElement h1(String text) {
      return new HtmlElementImpl("h1", text(text));
+  }  
+  public static HtmlElement header(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("header", htmlElements);
+  }
+  public static HtmlElement header(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+     return new HtmlElementImpl("header", htmlAttributes, htmlElements);
+  }
+  public static HtmlElement footer(HtmlElement... htmlElements) {
+     return new HtmlElementImpl("footer", htmlElements);
+  }
+  public static HtmlElement footer(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+     return new HtmlElementImpl("footer", htmlAttributes, htmlElements);
+  }
+  public static HtmlElement p(List<HtmlAttribute> htmlAttributes, String text) {
+     return new HtmlElementImpl("p", htmlAttributes, text(text));
+  }
+  public static HtmlElement p(String text) {
+     return new HtmlElementImpl("p", text(text));
   }
   public static HtmlElement a(List<HtmlAttribute> htmlAttributes, String text) {
      return new HtmlElementImpl("a", htmlAttributes, text(text));

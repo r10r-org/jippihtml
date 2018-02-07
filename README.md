@@ -5,7 +5,7 @@
 Templating engines in Java are usually quite separated from the Java compile
 process. Some use plain text files that are being read (Freemarker eg), others
 use plugins to compile text files to source code that are then basically Java
-classes.
+classes (eg https://github.com/fizzed/rocker).
 
 Each approach has pros and cons.
 
@@ -13,18 +13,21 @@ The goal of this experiment is to create a templating engine that does not need
 any parsing or code generation, but still is easy to use in your IDE and can
 use stuff like dependency injection and so on.
 
-Because Java still does not have multiline strings we cannot simply use
+Because Java still does not have multi-line strings we cannot simply use
 a class with a long static method that creates a string. It must be something else.
 
 # Goals
 
- - Template engine focusing on html rendering
+ - Java Template engine focusing on html rendering 
+ - 100% Java based. No need to learn anything special. Just use
+   what fits the job. Iterate via streams api. Use your own converters. Easy.
  - Zero dependencies
  - "Compile time save". Can be used like any other Java class.
 
 # Non goals
 
- - Jippihtml will NOT necessarily create valid html.
+ - Jippihtml will NOT necessarily create valid html. Not a goal.
+ - html syntax highlighting won't work. Not a goal.
 
 # How does it looks like ?
 
