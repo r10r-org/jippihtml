@@ -41,37 +41,47 @@ allows to write html files using a Java based dsl.
 
 # Some code
 
-A common usecase for web applications is rendering an index page that is embededed
+A common usecase for web applications is rendering an index page that is embeddeded
 inside a template (header, footer etc).
 
 In JippiHtml this'd look like that:
 
 ```java
-public HtmlElement siteTemplate(HtmlElement... mainPage) {
-  return 
-    html(
-      head(
-        title("My awesome website")
-      ),
-      body(
-        mainPage
-      )
-    );
-}
+// Don't forget to import JippiHtml statically to get all syntactic sugar
+import static org.r10r.jippihtml.JippiHtml.*;
 
-public HtmlElement indexPage() {
-  return 
-    siteTemplate(
-      h1("This is my index page"),
-      div(attributes(className("main")),
-        text("this is the main page")
-      )
-    );
-}
+// Organize your templates as you want. One file. Different files.
+// At the end it's just a method you'll call.
+public class Templates {
+  public HtmlElement siteTemplate(HtmlElement... mainPage) {
+    return 
+      html(
+        head(
+          title("My awesome website")
+        ),
+        body(
+          mainPage
+        )
+      );
+  }
 
-public void renderPage() {
-  String renderedPage = render(indexPage());
-  // ....
+  public HtmlElement indexPage() {
+    return 
+      siteTemplate(
+        h1("This is my index page"),
+        div(attributes(className("main")),
+          text("this is the main page")
+        )
+      );
+  }
+
+  public void renderPage() {
+    // render(...) creates a string, but it is more performant to write
+    // directly to an output stream in a webserver scenario.
+    String renderedPage = render(indexPage());
+
+    // ....
+  }
 }
  ```
 
