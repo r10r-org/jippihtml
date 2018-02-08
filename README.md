@@ -22,7 +22,7 @@ a class with a long static method that creates a string. It must be something el
  - 100% Java based. No need to learn anything special. Just use
    what fits the job. Iterate via streams api. Use your own converters. Easy.
  - Zero dependencies
- - "Compile time save". Can be used like any other Java class.
+ - "Compile time safe". Can be used like any other Java class.
 
 # Non goals
 
