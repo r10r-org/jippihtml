@@ -8,8 +8,7 @@ import org.r10r.jippihtml.JippiHtml.HtmlElement;
  */
 public class HeaderHtml {
 
-  public static HtmlElement html() {
-
+  public static HtmlElement template() {
     return 
       header(
         p("That's the funky header, dude!")

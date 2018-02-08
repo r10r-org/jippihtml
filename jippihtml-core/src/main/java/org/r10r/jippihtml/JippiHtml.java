@@ -1,5 +1,7 @@
 package org.r10r.jippihtml;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -86,6 +88,14 @@ public class JippiHtml {
       stringBuilder.append(s);
     }
     return stringBuilder.toString();
+  }
+  
+  public static void render(HtmlRenderable htmlRenderable, OutputStream outputStream) {
+      try (PrintWriter printWriter = new PrintWriter(outputStream)) {
+        for (String s : htmlRenderable.renderAsArrayOfStrings()) {
+            printWriter.write(s);
+        }
+      }
   }
   
   public static final HtmlElement br = new HtmlElementImpl("br");

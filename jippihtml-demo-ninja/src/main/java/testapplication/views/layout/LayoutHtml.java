@@ -1,7 +1,5 @@
 package testapplication.views.layout;
 
-
-import java.util.Arrays;
 import static org.r10r.jippihtml.JippiHtml.*;
 
 /**
@@ -10,19 +8,18 @@ import static org.r10r.jippihtml.JippiHtml.*;
  */
 public class LayoutHtml {
 
-  public static HtmlElement render(String titleText, HtmlElement htmlElement) {
-    
-   return
-    html(
-      head(
-        title(titleText)
-      ),
-      body(
-        HeaderHtml.html(),
-        htmlElement,
-        FooterHtml.html()
-      )
-    );
+  public static HtmlElement template(String titleText, HtmlElement htmlElement) {
+    return
+      html(
+        head(
+          title(titleText)
+        ),
+        body(
+          HeaderHtml.template(),
+          htmlElement,
+          FooterHtml.template()
+        )
+      );
   }
 
 }

@@ -30,15 +30,9 @@ import testapplication.views.IndexPage;
 
 public class JuckulaController {
     
-    @Inject
-    Messages messages;
-    
-    @Inject
-    Provider<IndexPage> indexPageProvider;
-    
     public Result index(Context context) {
       
-      JippiHtml.HtmlElement indexPage = IndexPage.html("a funky title");
+      JippiHtml.HtmlElement indexPage = IndexPage.template("a funky title");
         
         return Results.ok().render(indexPage);
     

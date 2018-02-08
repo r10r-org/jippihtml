@@ -8,12 +8,12 @@ import static org.r10r.jippihtml.JippiHtml.*;
  */
 public class IndexPage {
     
-    public static HtmlElement html(String title) {
+    public static HtmlElement template(String title) {
       
       return
-        LayoutHtml.render("title", 
+        LayoutHtml.template("title", 
           div(
-            p("that's the main body!"))
+            p("That's the main body! With ÜTF-8 öüä"))
         );
         
         

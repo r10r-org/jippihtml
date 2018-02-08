@@ -37,9 +37,7 @@ public class JippiHtmlNinja implements TemplateEngine {
       HtmlElement htmlElement = (HtmlElement) result.getRenderable();
 
       try (OutputStream outputStream = responseStreams.getOutputStream()) {
-
-        String renderedResult = JippiHtml.render(htmlElement);
-        IOUtils.write(renderedResult, outputStream, "UTF-8");
+        JippiHtml.render(htmlElement, outputStream);
       } catch (IOException ioException) {
         logger.error("somthing bad happended while writing out template", ioException);
       }

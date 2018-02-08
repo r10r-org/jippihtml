@@ -7,12 +7,11 @@ import static org.r10r.jippihtml.JippiHtml.*;
  */
 public class FooterHtml {
 
-  public static HtmlElement html() {
-
+  public static HtmlElement template() {
     return
-    footer(
-      p("That's the funky footer, dude!")
-    );
+      footer(
+        p("That's the funky footer, dude!")
+      );
   }
 
 }
