@@ -10,14 +10,17 @@ public class LayoutHtml {
 
   public static HtmlElement template(String titleText, HtmlElement htmlElement) {
     return
-      html(
-        head(
-          title(titleText)
-        ),
-        body(
-          HeaderHtml.template(),
-          htmlElement,
-          FooterHtml.template()
+      document(
+        doctypeHtml(),
+        html(
+          head(
+            title(titleText)
+          ),
+          body(
+            HeaderHtml.template(),
+            htmlElement,
+            FooterHtml.template()
+          )
         )
       );
   }

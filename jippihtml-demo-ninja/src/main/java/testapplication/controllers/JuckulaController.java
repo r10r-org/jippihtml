@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package testapplication.controllers;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import ninja.Context;
-import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
-import ninja.exceptions.BadRequestException;
-import ninja.i18n.Messages;
 import org.r10r.jippihtml.JippiHtml;
 import testapplication.views.IndexPage;
-
+import testapplication.views.TemplateBenchmark;
 
 public class JuckulaController {
-    
-    public Result index(Context context) {
-      
-      JippiHtml.HtmlElement indexPage = IndexPage.template("a funky title");
-        
-        return Results.ok().render(indexPage);
-    
-    }
-    
+
+  public Result index(Context context) {
+
+    JippiHtml.HtmlElement indexPage = IndexPage.template("a funky title");
+
+    JippiHtml.HtmlElement benchmarkTemplate = TemplateBenchmark.template(Stock.dummyItems());
+
+    return Results.ok().render(benchmarkTemplate);
+
+  }
+
 }

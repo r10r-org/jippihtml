@@ -30,16 +30,13 @@ public class JippiHtmlTest {
       )
     );
   }
-  
+
   @Test
   public void renderPage() {
     String renderedPage = render(indexPage());
     System.out.println(renderedPage);
   }
-  
-  
-  
-  
+
   @Test
   public void testSomeMethod() {
 
@@ -52,7 +49,7 @@ public class JippiHtmlTest {
           ),
           br(),
           a(
-            attributes(href("http://mywebserver2.com"), className(".button-two")), 
+            attributes(href("http://mywebserver2.com"), className(".button-two")),
             text("secondlinkg")
           )
         ),

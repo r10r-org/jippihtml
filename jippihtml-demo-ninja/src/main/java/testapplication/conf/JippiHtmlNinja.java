@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package testapplication.conf;
 
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 import ninja.Context;
 import ninja.Result;
 import ninja.template.TemplateEngine;
 import ninja.utils.ResponseStreams;
-import org.apache.commons.io.IOUtils;
 import org.r10r.jippihtml.JippiHtml;
 import org.r10r.jippihtml.JippiHtml.*;
 import org.slf4j.Logger;
@@ -33,11 +27,10 @@ public class JippiHtmlNinja implements TemplateEngine {
     if (result.getRenderable() instanceof JippiHtml.HtmlElement) {
 
       ResponseStreams responseStreams = context.finalizeHeaders(result);
-
       HtmlElement htmlElement = (HtmlElement) result.getRenderable();
 
-      try (OutputStream outputStream = responseStreams.getOutputStream()) {
-        JippiHtml.render(htmlElement, outputStream);
+      try (Writer writer = responseStreams.getWriter()) {
+        htmlElement.renderToWriter(writer);
       } catch (IOException ioException) {
         logger.error("somthing bad happended while writing out template", ioException);
       }
