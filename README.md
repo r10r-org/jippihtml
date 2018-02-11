@@ -108,9 +108,13 @@ renderedPage will be the following plain text html:
 
 # TODO
 
+- Improve performance even more
 - Examine whether stream api aka List<> vs [] has impact on performance
 - Release performance microbenchmark
 - Examine whether .inter() has any performance impact at all.
+- Add and test escaping for html elements
+- More tests in general
+- proper ninja integration with tests and so on
 
 
 
