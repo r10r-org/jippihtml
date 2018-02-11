@@ -106,6 +106,14 @@ renderedPage will be the following plain text html:
 </html>
 ```
 
+# TODO
+
+- Examine whether stream api aka List<> vs [] has impact on performance
+- Release performance microbenchmark
+- Examine whether .inter() has any performance impact at all.
+
+
+
 
 
 

@@ -3,11 +3,12 @@ package org.r10r.jippihtml;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class JippiHtml {
+  
+  private static final String TD = "td".intern();
+  private static final String TR = "tr".intern();
+  private static final String A = "a".intern();
 
   //////////////////////////////////////////////////////////////////////////////
   // SyntacticSugar
@@ -20,7 +21,7 @@ public class JippiHtml {
     return new Document(docType, html);
   }
 
-  public static HtmlElement html(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+  public static HtmlElement html(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
     return new HtmlElementImpl("html", htmlAttributes, htmlElements);
   }
 
@@ -44,11 +45,11 @@ public class JippiHtml {
     return new HtmlElementImpl("div", htmlElements);
   }
 
-  public static HtmlElement div(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+  public static HtmlElement div(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
     return new HtmlElementImpl("div", htmlAttributes, htmlElements);
   }
 
-  public static HtmlElement h1(List<HtmlAttribute> htmlAttributes, String text) {
+  public static HtmlElement h1(HtmlAttribute [] htmlAttributes, String text) {
     return new HtmlElementImpl("h1", htmlAttributes, text(text));
   }
 
@@ -60,7 +61,7 @@ public class JippiHtml {
     return new HtmlElementImpl("header", htmlElements);
   }
 
-  public static HtmlElement header(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+  public static HtmlElement header(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
     return new HtmlElementImpl("header", htmlAttributes, htmlElements);
   }
 
@@ -68,35 +69,35 @@ public class JippiHtml {
     return new HtmlElementImpl("footer", htmlElements);
   }
 
-  public static HtmlElement footer(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
+  public static HtmlElement footer(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
     return new HtmlElementImpl("footer", htmlAttributes, htmlElements);
   }
 
   public static HtmlElement meta(HtmlAttribute... htmlAttributes) {
-    return new HtmlElementImpl("meta", Arrays.asList(htmlAttributes));
+    return new HtmlElementImpl("meta", htmlAttributes);
   }
 
   public static HtmlElement link(HtmlAttribute... htmlAttributes) {
-    return new HtmlElementImpl("link", Arrays.asList(htmlAttributes));
+    return new HtmlElementImpl("link", htmlAttributes);
   }
 
-  public static HtmlElement script(HtmlAttribute... htmlAttributes) {
-    return new HtmlElementImpl("script", Arrays.asList(htmlAttributes));
+  public static HtmlElement script(HtmlAttribute [] htmlAttributes) {
+    return new HtmlElementImpl("script", htmlAttributes);
   }
 
-  public static HtmlElement script(List<HtmlAttribute> htmlAttributes, String text) {
+  public static HtmlElement script(HtmlAttribute [] htmlAttributes, String text) {
     return new HtmlElementImpl("script", htmlAttributes, text(text));
   }
 
-  public static HtmlElement style(List<HtmlAttribute> htmlAttributes) {
+  public static HtmlElement style(HtmlAttribute [] htmlAttributes) {
     return new HtmlElementImpl("style", htmlAttributes);
   }
 
-  public static HtmlElement style(List<HtmlAttribute> htmlAttributes, String text) {
+  public static HtmlElement style(HtmlAttribute [] htmlAttributes, String text) {
     return new HtmlElementImpl("style", htmlAttributes, text(text));
   }
 
-  public static HtmlElement p(List<HtmlAttribute> htmlAttributes, String text) {
+  public static HtmlElement p(HtmlAttribute [] htmlAttributes, String text) {
     return new HtmlElementImpl("p", htmlAttributes, text(text));
   }
 
@@ -104,25 +105,25 @@ public class JippiHtml {
     return new HtmlElementImpl("p", text(text));
   }
 
-  public static HtmlElement a(List<HtmlAttribute> htmlAttributes, String text) {
-    return new HtmlElementImpl("a", htmlAttributes, text(text));
+  public static HtmlElement a(HtmlAttribute [] htmlAttributes, String text) {
+    return new HtmlElementImpl(A, htmlAttributes, text(text));
   }
 
-  public static HtmlElement a(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
-    return new HtmlElementImpl("a", htmlAttributes, htmlElements);
+  public static HtmlElement a(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
+    return new HtmlElementImpl(A, htmlAttributes, htmlElements);
   }
 
   public static HtmlElement a(HtmlElement... htmlElements) {
-    return new HtmlElementImpl("a", htmlElements);
+    return new HtmlElementImpl(A, htmlElements);
   }
 
   public static HtmlElement ul(HtmlElement... htmlElements) {
     return new HtmlElementImpl("ul", htmlElements);
   }
 
-  public static HtmlElement ul(List<HtmlElement> htmlElements) {
-    return new HtmlElementImpl("ul", htmlElements);
-  }
+  //public static HtmlElement ul(List<HtmlElement> htmlElements) {
+  //  return new HtmlElementImpl("ul", htmlElements);
+  //}
 
   public static HtmlElement table(HtmlElement... htmlElements) {
     return new HtmlElementImpl("table", htmlElements);
@@ -133,35 +134,35 @@ public class JippiHtml {
   }
 
   public static HtmlElement tr(HtmlElement... htmlElements) {
-    return new HtmlElementImpl("tr", htmlElements);
+    return new HtmlElementImpl(TR, htmlElements);
   }
 
-  public static HtmlElement tr(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
-    return new HtmlElementImpl("tr", htmlElements);
+  public static HtmlElement tr(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
+    return new HtmlElementImpl(TR, htmlElements);
   }
 
   public static HtmlElement th(String content) {
     return new HtmlElementImpl("th", text(content));
   }
 
-  public static HtmlElement tbody(List<HtmlElement> htmlElements) {
-    return new HtmlElementImpl("tbody", htmlElements);
-  }
+  //public static HtmlElement tbody(HtmlElement [] htmlElements) {
+  //  return new HtmlElementImpl("tbody", htmlElements);
+  //}
 
   public static HtmlElement tbody(HtmlElement... htmlElements) {
     return new HtmlElementImpl("tbody", htmlElements);
   }
 
   public static HtmlElement td(String text) {
-    return new HtmlElementImpl("td", text(text));
+    return new HtmlElementImpl(TD, text(text));
   }
 
   public static HtmlElement td(HtmlElement... htmlElements) {
-    return new HtmlElementImpl("td", htmlElements);
+    return new HtmlElementImpl(TD, htmlElements);
   }
 
-  public static HtmlElement td(List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
-    return new HtmlElementImpl("td", htmlAttributes, htmlElements);
+  public static HtmlElement td(HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
+    return new HtmlElementImpl(TD, htmlAttributes, htmlElements);
   }
 
   public static HtmlElement strong(String text) {
@@ -182,9 +183,9 @@ public class JippiHtml {
 
   public static String render(HtmlRenderable htmlRenderable) {
     try {
-      StringWriter stringWriter = new StringWriter();
-      htmlRenderable.renderToWriter(stringWriter);
-      return stringWriter.toString();
+      StringBuilder stringBuilder = new StringBuilder();
+      htmlRenderable.renderToWriter(stringBuilder);
+      return stringBuilder.toString();
     } catch (IOException i) {
       throw new RuntimeException(i);
     }
@@ -208,15 +209,15 @@ public class JippiHtml {
     return new HtmlAttributeImpl(key, value);
   }
 
-  public static List<HtmlAttribute> attributes(HtmlAttribute... htmlAttributes) {
-    return Arrays.asList(htmlAttributes);
+  public static HtmlAttribute [] attributes(HtmlAttribute... htmlAttributes) {
+    return htmlAttributes;
   }
 
   //////////////////////////////////////////////////////////////////////////////
   // Interfaces
   /////////////////////////////////////////////////////////////////////////////
   public interface HtmlRenderable {
-    void renderToWriter(Writer writer) throws IOException;
+    void renderToWriter(Appendable appendable) throws IOException;
   }
 
   public static interface HtmlElement extends HtmlRenderable {
@@ -229,11 +230,14 @@ public class JippiHtml {
   // Implementation
   //////////////////////////////////////////////////////////////////////////////
   public static class HtmlAttributeImpl implements HtmlAttribute {
+    
+    private static final String END_HYPEN = "\"";
+    private static final String EQUALS_WITH_OPENING_HYPEN = "=\"";
 
     private final String name;
     private final String value;
 
-    private static final String NAME_VALUE_WITH_PLACEHOLDER = "%s=\"%s\"".intern();
+    //private static final String NAME_VALUE_WITH_PLACEHOLDER = "%s=\"%s\"".intern();
 
     public HtmlAttributeImpl(String name, String value) {
       this.name = name;
@@ -241,8 +245,12 @@ public class JippiHtml {
     }
 
     @Override
-    public void renderToWriter(Writer writer) throws IOException {
-      writer.append(String.format(NAME_VALUE_WITH_PLACEHOLDER, name, value));
+    public void renderToWriter(Appendable writer) throws IOException {
+      writer.append(name);
+      writer.append(EQUALS_WITH_OPENING_HYPEN);
+      writer.append(value);
+      writer.append(END_HYPEN);
+      //writer.append(String.format(NAME_VALUE_WITH_PLACEHOLDER, name, value));
     }
   }
 
@@ -257,7 +265,7 @@ public class JippiHtml {
     }
 
     @Override
-    public void renderToWriter(Writer writer) throws IOException {
+    public void renderToWriter(Appendable writer) throws IOException {
       docType.renderToWriter(writer);
       html.renderToWriter(writer);
     }
@@ -272,71 +280,73 @@ public class JippiHtml {
     }
 
     @Override
-    public void renderToWriter(Writer writer) throws IOException {
+    public void renderToWriter(Appendable writer) throws IOException {
       writer.append(text);
-      //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
   }
 
   public static class HtmlElementImpl implements HtmlElement {
 
     private final String tag; // br, div, a etc
-    private final List<HtmlElement> htmlElements;
-    private final List<HtmlAttribute> htmlAttributes;
+    private final HtmlElement [] htmlElements;
+    private final HtmlAttribute [] htmlAttributes;
 
     // this is more "efficient" as we don't want to create the strings
     // over and over again... hmm. is it really? => to be verified...
-    private static final String SPACE = " ".intern();
-    private static final String OPENING_BRACE = "<".intern();
-    private static final String CLOSING_BRACE_EMPT = "/>".intern();
-    private static final String CLOSING_BRACE = ">".intern();
-    private static final String CLOSING_TAG_WITH_PLACEHOLDER = "</%s>".intern();
+    private static final String SPACE = " ";
+    private static final String OPENING_BRACE = "<";
+    private static final String OPENING_BRACE_CLOSING_TAG = "</";
+    private static final String CLOSING_BRACE_EMPT = "/>";
+    private static final String CLOSING_BRACE = ">";
 
-    private HtmlElementImpl(String tag, List<HtmlAttribute> htmlAttributes, List<HtmlElement> htmlElements) {
+    private HtmlElementImpl(String tag, HtmlAttribute [] htmlAttributes, HtmlElement ... htmlElements) {
       this.tag = tag;
       this.htmlElements = htmlElements;
       this.htmlAttributes = htmlAttributes;
     }
 
     private HtmlElementImpl(String htmlElementName, HtmlElement... htmlElements) {
-      this(htmlElementName, Collections.EMPTY_LIST, Arrays.asList(htmlElements));
+      this(htmlElementName, new HtmlAttribute[0], htmlElements);
+    }
+    
+    private HtmlElementImpl(String htmlElementName, HtmlAttribute ... htmlAttributes) {
+      this(htmlElementName, htmlAttributes, new HtmlElement[0]);
     }
 
-    private HtmlElementImpl(String htmlElementName, List<HtmlElement> htmlElements) {
-      this(htmlElementName, Collections.EMPTY_LIST, htmlElements);
+     private HtmlElementImpl(String htmlElementName) {
+      this(htmlElementName,  new HtmlAttribute[0], new HtmlElement[0]);
     }
-
-    private HtmlElementImpl(String htmlElementName, List<HtmlAttribute> htmlAttributes, HtmlElement... htmlElements) {
-      this(htmlElementName, htmlAttributes, Arrays.asList(htmlElements));
-    }
+        
+    //private HtmlElementImpl(String htmlElementName, HtmlAttribute [] htmlAttributes, HtmlElement... htmlElements) {
+    //  this(htmlElementName, htmlAttributes, htmlElements);
+    //}
 
     // ==> https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
-    public String escapeUntrustedHtmlElementContent(String untrustedString) {
-      return untrustedString
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll("\"", "&quot;")
-        .replaceAll("'", "&#x27;")
-        .replaceAll("/", "&#x2F;");
-    }
+//    public String escapeUntrustedHtmlElementContent(String untrustedString) {
+//      return untrustedString
+//        .replaceAll("&", "&amp;")
+//        .replaceAll("<", "&lt;")
+//        .replaceAll(">", "&gt;")
+//        .replaceAll("\"", "&quot;")
+//        .replaceAll("'", "&#x27;")
+//        .replaceAll("/", "&#x2F;");
+//    }
 
     @Override
-    public void renderToWriter(Writer writer) throws IOException {
+    public void renderToWriter(Appendable writer) throws IOException {
       writer.append(OPENING_BRACE);
       writer.append(tag);
-      if (htmlAttributes.isEmpty()) {
+      if (htmlAttributes.length == 0) {
         // don't add anything...
       } else {
         for (HtmlRenderable htmlAttribute : htmlAttributes) {
-          // fixme...
           writer.append(SPACE);
           htmlAttribute.renderToWriter(writer);
         }
       }
 
       // if we don't have any inner html, we close the tag
-      if (htmlElements.isEmpty()) {
+      if (htmlElements.length == 0) {
         writer.append(CLOSING_BRACE_EMPT);
       } else {
         writer.append(CLOSING_BRACE);
@@ -345,7 +355,10 @@ public class JippiHtml {
           htmlElement.renderToWriter(writer);
         }
 
-        writer.append(String.format(CLOSING_TAG_WITH_PLACEHOLDER, tag));
+        writer.append(OPENING_BRACE_CLOSING_TAG);
+        writer.append(tag);
+        writer.append(CLOSING_BRACE);
+        
       }
 
     }

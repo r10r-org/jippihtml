@@ -32,6 +32,31 @@ public class TemplateBenchmark {
 "		}\n";   
     public static HtmlElement template(List<Stock> stocks) {
       
+      HtmlElement [] sockHtml = IntStream.range(0, stocks.size()).mapToObj(i -> {
+                    Stock stock = stocks.get(i);
+
+                    return
+                      tr(
+                        attributes(( (i % 2 == 0) ? className("even") : className("odd"))),
+                        td(i + 1 + ""),
+                        td(
+                          a(attributes(href("/stocks/" + stock.symbol)),
+                            text(stock.symbol)
+                          )
+                        ),
+                        td(
+                          a(attributes(href(stock.url)),
+                            text(stock.name)
+                          )
+                        ),
+                        td(
+                          strong(stock.price + "")
+                        ),
+                        (stock.change < 0.0) ? td(attributes(className("minus")), text(stock.change + "")) : td(text(stock.change + "")),
+                        (stock.change < 0.0) ? td(attributes(className(".minus")), text(stock.ratio + "")) : td(text(stock.ratio + ""))
+                      );
+                    }).toArray(size -> new HtmlElement[size]);
+      
       //doctypeHtml()
         
         return 
@@ -66,30 +91,7 @@ public class TemplateBenchmark {
                   )
                 ),
                 tbody(
-                  IntStream.range(0, stocks.size()).mapToObj(i -> {
-                    Stock stock = stocks.get(i);
-
-                    return
-                      tr(
-                        attributes(( (i % 2 == 0) ? className("even") : className("odd"))),
-                        td(i + 1 + ""),
-                        td(
-                          a(attributes(href("/stocks/" + stock.symbol)),
-                            text(stock.symbol)
-                          )
-                        ),
-                        td(
-                          a(attributes(href(stock.url)),
-                            text(stock.name)
-                          )
-                        ),
-                        td(
-                          strong(stock.price + "")
-                        ),
-                        (stock.change < 0.0) ? td(attributes(className("minus")), text(stock.change + "")) : td(text(stock.change + "")),
-                        (stock.change < 0.0) ? td(attributes(className("minus")), text(stock.ratio + "")) : td(text(stock.ratio + ""))
-                      );
-                    }).collect(Collectors.toList())
+                  sockHtml
                   )
                 )
               )
